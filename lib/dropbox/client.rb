@@ -140,6 +140,15 @@ module Dropbox
       resp['entries'].map { |e| parse_tagged_response(e) }
     end
 
+    # Get the contents of a folder that are after a cursor and return the latest cursor as well
+    #
+    # @param [String] cursor
+    # @return [[Array<Dropbox::Metadata>], LatestCursor]
+    def continue_list_folder_with_cursor(cursor)
+      resp = request('/files/list_folder/continue', cursor: cursor)
+      [resp['entries'].map { |e| parse_tagged_response(e) }, resp['cursor']]
+    end    
+
     # Get a cursor for a folder's current state.
     #
     # @param [String] path
