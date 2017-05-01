@@ -153,9 +153,14 @@ module Dropbox
     #
     # @param [String] path
     # @return [String] cursor
-    def get_latest_list_folder_cursor(path)
-      resp = request('/files/list_folder/get_latest_cursor', path: path)
-      resp['cursor']
+    def get_latest_list_folder_cursor(path, recursive=nil)
+      if recursive.nil?
+        resp = request('/files/list_folder/get_latest_cursor', path: path)
+        resp['cursor']
+      else
+        resp = request('/files/list_folder/get_latest_cursor', path: path, recursive: recursive)
+        resp['cursor']
+      end
     end
 
     # Get the revisions of a file.
